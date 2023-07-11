@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>高校频道</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: lightblue;
+    }
+    .container {
+      text-align: center;
+      max-width: 90%;
+      max-height: 90%;
+    }
+    .animation {
+      animation-name: jumpAnimation;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+    @keyframes jumpAnimation {
+      0% {
+        transform: translateY(0);
+      }
+      25% {
+        transform: translateY(-10px) translateX(10px);
+      }
+      50% {
+        transform: translateY(0);
+      }
+      75% {
+        transform: translateY(-10px) translateX(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    h1 {
+      font-size: 96px;
+      font-weight: bold;
+      color: red;
+      text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    }
+    .small-text {
+      font-size: 28px;
+      color: gray;
+    }
+    button {
+      font-size: 48px;
+      padding: 24px 48px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 32px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="animation">远离黑产<br>小心封号</h1>
+    <p class="small-text">点击跳转即可打开王者荣耀高校频道</p >
+    <button onclick="redirectToLink()">跳转</button>
+  </div>
+  <script>
+    function redirectToLink() {
+      const currentTimeStamp = Date.now();
+      const base64String = btoa('1-' + currentTimeStamp);
+      const url = `tencentmsdk1104466820://?gamedata=RcampusWhiteList_${base64String}_1_1001_0_2_oBHNywzmLUCcNXpL1OyGmzxYX2Fc`;
+    
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>
