@@ -54,6 +54,10 @@
       font-size: 28px;
       color: gray;
     }
+    .bold-red {
+      font-weight: bold;
+      color: red;
+    }
     button {
       font-size: 48px;
       padding: 24px 48px;
@@ -72,10 +76,10 @@
 <body>
   <div class="container">
     <h1 class="animation">远离黑产<br>小心封号</h1>
-    <p class="small-text">点击跳转即可打开王者荣耀高校频道<br>私自传播者与齐工程高校频道无关，且保留追责权益！</p>
+    <p class="small-text">点击跳转即可打开王者荣耀高校频道<br>私自传播者与<span class="bold-red">齐工程高校频道</span>无关，<span class="bold-red">且保留追责权益！</p>
     <button onclick="redirectToLink()">跳转</button><br>
-    <p class="small-text">点击加入频道即可加入齐工程高校频道QQ专属频道<br>仅限本校学生加入，校外人员请勿点击！</p>
-    <button onclick="joinChannel()">加入频道</button> <!-- 添加的按钮 -->
+    <p class="small-text">点击加入频道即可加入<span class="bold-red">齐工程高校频道</span>QQ专属频道<br>仅限本校学生加入，<span class="bold-red">校外人员请勿点击！</span></p>
+    <button onclick="joinChannel()">加入频道</button>
   </div>
   <script>
     function redirectToLink() {
