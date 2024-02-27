@@ -1,99 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>高校频道</title>
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小狗吃屎游戏</title>
+<style>
     body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: lightblue;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
     }
-    .container {
-      text-align: center;
-      max-width: 90%;
-      max-height: 90%;
+    #container {
+        width: 100vw;
+        height: calc(75vw); /* 固定4:3布局 */
+        background-color: #9acd32;
+        position: relative;
     }
-    .animation {
-      animation-name: jumpAnimation;
-      animation-duration: 1s;
-      animation-iteration-count: infinite;
-      animation-direction: alternate;
+    #dog {
+        font-size: 30px;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
     }
-    @keyframes jumpAnimation {
-      0% {
-        transform: translateY(0);
-      }
-      25% {
-        transform: translateY(-10px) translateX(10px);
-      }
-      50% {
-        transform: translateY(0);
-      }
-      75% {
-        transform: translateY(-10px) translateX(-10px);
-      }
-      100% {
-        transform: translateY(0);
-      }
+    .poop {
+        font-size: 30px;
+        position: absolute;
     }
-    h1 {
-      font-size: 96px;
-      font-weight: bold;
-      color: red;
-      text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    #score {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
     }
-    .small-text {
-      font-size: 28px;
-      color: gray;
-    }
-    .bold-red {
-      font-weight: bold;
-      color: red;
-    }
-    button {
-      font-size: 48px;
-      padding: 24px 48px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 32px;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-  </style>
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="animation">远离黑产<br>小心封号</h1>
-    <p class="small-text"><span class="bold-red">请在浏览器打开此页面！！！<br>此链接授权各高校频道使用</span><br>点击跳转即可打开王者荣耀高校频道<br>私自传播者与<span class="bold-red">齐工程高校频道</span>无关，<span class="bold-red">且保留追责权益！</p>
-    <button onclick="redirectToLink()">跳转</button><br>
-    <p class="small-text">点击加入频道即可加入<span class="bold-red">齐工程高校频道</span>QQ专属频道<br>仅限本校学生加入，<span class="bold-red">校外人员请勿点击！</span></p>
-    <button onclick="joinChannel()">加入频道</button>
-  </div>
-  <script>
-    function redirectToLink() {
-      const currentTimeStamp = Date.now();
-      const base64String = btoa('1-' + currentTimeStamp);
-      const url = `tencentmsdk1104466820://?gamedata=RcampusWhiteList_${base64String}_1_1001_0_2_oBHNywzmLUCcNXpL1OyGmzxYX2Fc`;
+<div id="container">
+    <div id="dog">🐶</div>
+    <div id="score">黄子健吃屎数：<span id="scoreValue">0</span></div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var container = document.getElementById('container');
+        var dog = document.getElementById('dog');
+        var scoreValue = document.getElementById('scoreValue');
+        var score = 0;
+        var maxWidth = container.offsetWidth - dog.offsetWidth; // 可移动的最大宽度
 
-      window.location.href = url;
-    }
+        // 设置分数初始值
+        scoreValue.textContent = score;
 
-    function joinChannel() {
-      const channelUrl = 'https://pd.qq.com/s/cka7x8x8p';
-      window.open(channelUrl, '_blank');
-    }
-  </script>
+        // 小狗移动函数
+        function moveDog(direction) {
+            var currentLeft = parseInt(dog.style.left) || 0;
+            var newLeft = currentLeft + direction * 30; // 移动距离
+            newLeft = Math.max(0, Math.min(newLeft, maxWidth)); // 限制在容器范围内
+            dog.style.left = newLeft + 'px';
+        }
+
+        // 每隔一段时间随机生成一坨屎
+        setInterval(function() {
+            var poop = document.createElement('div');
+            poop.classList.add('poop');
+            poop.textContent = '💩'; // 使用屎的表情符号
+            poop.style.left = Math.floor(Math.random() * container.offsetWidth) + 'px';
+            container.appendChild(poop);
+
+            // 屎下落动画
+            var interval = setInterval(function() {
+                var top = parseInt(poop.style.top) || 0;
+                var newTop = top + 5; // 下落速度
+                poop.style.top = newTop + 'px';
+                
+                // 判断是否接住屎
+                if (newTop >= container.offsetHeight - dog.offsetHeight && 
+                    Math.abs(parseInt(poop.style.left) - parseInt(dog.style.left)) <= 30) {
+                    poop.remove(); // 吃掉屎
+                    score++;
+                    scoreValue.textContent = score; // 更新分数
+                    clearInterval(interval);
+                } else if (newTop >= container.offsetHeight) {
+                    poop.remove(); // 屎掉落到底部未被接住，移除屎
+                    clearInterval(interval);
+                }
+            }, 50);
+        }, 2000); // 每隔2秒生成一坨屎
+
+        // 键盘事件监听
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                moveDog(-1); // 向左移动
+            } else if (event.key === 'ArrowRight') {
+                moveDog(1); // 向右移动
+            }
+        });
+    });
+</script>
 </body>
 </html>
