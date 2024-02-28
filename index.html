@@ -5,33 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>小狗吃屎游戏</title>
 <style>
-    body {
+    body, html {
         margin: 0;
         padding: 0;
+        height: 100%;
         overflow: hidden;
     }
     #container {
-        width: 100vw;
-        height: calc(75vw); /* 固定4:3布局 */
+        width: 100%;
+        height: 100%;
         background-color: #9acd32;
         position: relative;
     }
     #dog {
-        font-size: 30px;
+        font-size: 3vw;
         position: absolute;
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
     }
     .poop {
-        font-size: 30px;
+        font-size: 3vw;
         position: absolute;
     }
     #score {
         position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 20px;
+        top: 1vw;
+        right: 1vw;
+        font-size: 2vw;
+    }
+    #startMessage {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3vw;
+        text-align: center;
     }
 </style>
 </head>
@@ -39,12 +48,14 @@
 <div id="container">
     <div id="dog">🐶</div>
     <div id="score">黄子健吃屎数：<span id="scoreValue">0</span></div>
+    <div id="startMessage">请用电脑浏览器打开，使用左右方向键移动黄子健</div>
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var container = document.getElementById('container');
         var dog = document.getElementById('dog');
         var scoreValue = document.getElementById('scoreValue');
+        var startMessage = document.getElementById('startMessage');
         var score = 0;
         var maxWidth = container.offsetWidth - dog.offsetWidth; // 可移动的最大宽度
 
@@ -54,7 +65,7 @@
         // 小狗移动函数
         function moveDog(direction) {
             var currentLeft = parseInt(dog.style.left) || 0;
-            var newLeft = currentLeft + direction * 30; // 移动距离
+            var newLeft = currentLeft + direction * 20; // 移动距离
             newLeft = Math.max(0, Math.min(newLeft, maxWidth)); // 限制在容器范围内
             dog.style.left = newLeft + 'px';
         }
@@ -95,6 +106,11 @@
                 moveDog(1); // 向右移动
             }
         });
+
+        // 游戏开始时隐藏提示信息
+        setTimeout(function() {
+            startMessage.style.display = 'none';
+        }, 5000); // 5秒后隐藏提示信息
     });
 </script>
 </body>
